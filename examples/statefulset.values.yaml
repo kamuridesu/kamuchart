@@ -1,0 +1,45 @@
+enabled: true
+image:
+  repository: kamuri/riko-wabot
+version: "0.1.14"
+replicas: 1
+
+envFrom:
+  - secretRef:
+      name: serviceless-riko-wabot-secret
+
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
+
+resources:
+  limits:
+    cpu: "0.2"
+    memory: 2G
+
+volumeMounts:
+  - mountPath: /app/states
+    name: riko-data
+
+volumeClaimTemplates: # This tells the chart to generate a StatefulSet
+  - metadata:
+      name: riko-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 1Gi
+
+service:
+  headless: true
+
+persistentVolume:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  hostPath:
+    path: /riko-state

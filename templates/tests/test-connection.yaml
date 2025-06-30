@@ -1,0 +1,19 @@
+{{- if .Values.enabled }}
+{{- if not .Values.service.headless }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "kamuchart.fullname" . }}-test-connection"
+  labels:
+    {{- include "kamuchart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "kamuchart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
+{{- end }}
+{{- end }}

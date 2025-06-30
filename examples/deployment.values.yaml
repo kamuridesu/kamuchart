@@ -1,0 +1,50 @@
+enabled: true
+image:
+  repository: quay.io/keycloak/keycloak
+version: "25.0.2-0"
+replicas: 1
+
+envFrom:
+  - secretRef:
+      name: keycloak-secret
+
+readinessProbe:
+  enabled: true
+  probes:
+    httpGet:
+      path: /
+      port: 8080
+    initialDelaySeconds: 120
+    timeoutSeconds: 10
+livenessProbe:
+  enabled: true
+  probes:
+    httpGet:
+      path: /
+      port: 8080
+    initialDelaySeconds: 130
+    timeoutSeconds: 10
+
+resources:
+  limits:
+    cpu: "0.5"
+    memory: 1G
+
+args:
+  - "start"
+  - "--hostname"
+  - "keycloak.kamuridesu.com"
+  - "--proxy-headers"
+  - "xforwarded"
+
+service:
+  port: 8080
+
+ingress:
+  enabled: true
+  className: haproxy
+  hosts:
+    - host: keycloak.kamuridesu.com
+      paths:
+        - path: /
+          pathType: Prefix
