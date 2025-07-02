@@ -4,7 +4,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "kamuchart.fullname" . }}
+  name: {{ cat (include "kamuchart.fullname" .) "-ingress" | nospace }}
   labels:
     {{- include "kamuchart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
