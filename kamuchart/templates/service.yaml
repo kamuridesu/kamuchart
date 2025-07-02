@@ -1,4 +1,4 @@
-{{- if .Values.enabled }}
+{{- if and .Values.enabled (or (not .Values.service.headless) (not (empty .Values.volumeClaimTemplates))) }}
 apiVersion: v1
 kind: Service
 metadata:

@@ -69,13 +69,13 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
             {{- end }}
-          {{- if .Values.livenessProbe.enabled }}
+          {{- if and .Values.livenessProbe.enabled (not .Values.service.headless) }}
           {{- with .Values.livenessProbe.probes }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
+          {{- if and .Values.readinessProbe.enabled (not .Values.service.headless) }}
           {{- with .Values.readinessProbe.probes }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
