@@ -1,0 +1,12 @@
+{{- if .Values.enabled }}
+{{- if not (empty .Values.persistentVolume) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ cat  (include "kamuchart.fullname" .) "-pv" | nospace }}
+spec:
+  {{- with .Values.persistentVolume }}
+  {{- toYaml . | nindent 4}}
+  {{- end }}
+{{- end }}
+{{- end }}
