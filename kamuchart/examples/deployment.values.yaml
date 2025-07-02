@@ -3,6 +3,11 @@ image:
   repository: quay.io/keycloak/keycloak
 version: "25.0.2-0"
 replicas: 1
+language: java
+
+monitoring:
+  datadog:
+    enabled: true
 
 envFrom:
   - secretRef:

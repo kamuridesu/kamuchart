@@ -6,6 +6,9 @@ metadata:
   name: {{ include "kamuchart.fullname" . }}
   labels:
     {{- include "kamuchart.labels" . | nindent 4 }}
+    {{- if .Values.monitoring.datadog.enabled }}
+    {{- include "kamuchart.datadogSelectorLabels" . | nindent 4 }}
+    {{- end }}
 spec:
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
@@ -24,6 +27,9 @@ spec:
         {{- include "kamuchart.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.monitoring.datadog.enabled }}
+        {{- include "kamuchart.datadogSelectorLabels" . | nindent 8 }}
         {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}

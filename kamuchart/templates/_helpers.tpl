@@ -46,6 +46,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Datadog selector labels
+*/}}
+{{- define "kamuchart.datadogSelectorLabels" -}}
+tags.datadoghq.com/env: prod
+tags.datadoghq.com/service: "{{ include "kamuchart.fullname" . }}"
+tags.datadoghq.com/version: {{ .Values.version | quote }}
+language: {{ .Values.language }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "kamuchart.serviceAccountName" -}}
