@@ -49,7 +49,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Datadog selector labels
 */}}
 {{- define "kamuchart.datadogSelectorLabels" -}}
-tags.datadoghq.com/env: {{ .Values.env }}
+tags.datadoghq.com/env: {{ .Values.environment }}
 tags.datadoghq.com/service: "{{ include "kamuchart.fullname" . }}"
 tags.datadoghq.com/version: {{ .Values.version | quote }}
 language: {{ .Values.language }}
