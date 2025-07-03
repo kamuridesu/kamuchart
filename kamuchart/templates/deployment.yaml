@@ -10,7 +10,7 @@ metadata:
     {{- include "kamuchart.datadogSelectorLabels" . | nindent 4 }}
     {{- end }}
 spec:
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: 5
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}

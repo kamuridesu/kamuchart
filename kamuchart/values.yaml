@@ -5,6 +5,9 @@
 # Enables chart for application
 enabled: false
 
+# Application environment, this will be used by monitoring tools and scope configuration
+env: dev
+
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicas: 1
 
@@ -165,3 +168,6 @@ affinity: {}
 # This section tells the chart that we will use a StatefulSet instead of a Deployment.
 # Only StatefulSets have volumeClaimTemplates.
 volumeClaimTemplates: {}
+
+# Creates a persistentVolume
+persistentVolume: {}

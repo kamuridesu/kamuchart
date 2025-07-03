@@ -4,6 +4,7 @@ image:
 version: "25.0.2-0"
 replicas: 1
 language: java
+env: prod
 
 monitoring:
   datadog:
