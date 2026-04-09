@@ -1,4 +1,7 @@
 {{- if and .Values.enabled (or (not .Values.service.headless) (not (empty .Values.volumeClaimTemplates))) }}
+{{- if and .Values.service.nodePort (not (has .Values.service.type (list "NodePort" "LoadBalancer"))) }}
+{{- fail (printf "You defined a nodePort, but service.type is '%s'. It must be 'NodePort' or 'LoadBalancer'." .Values.service.type) }}
+{{- end }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,14 +10,17 @@ metadata:
     {{- include "kamuchart.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
-  {{- if .Values.service.headless}}
+  {{- if .Values.service.headless }}
   clusterIP: None
   {{- else }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+      targetPort: {{ .Values.service.targetPort | default "http" }}
+      protocol: {{ .Values.service.protocol | default "TCP" }}
+      name: {{ .Values.service.name | default "http" }}
+      {{- if .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
   {{- end }}
   selector:
     {{- include "kamuchart.selectorLabels" . | nindent 4 }}
