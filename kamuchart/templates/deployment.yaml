@@ -12,7 +12,7 @@ metadata:
 spec:
   revisionHistoryLimit: 5
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicas }}
   {{- end }}
   selector:
     matchLabels:
