@@ -52,6 +52,7 @@ Datadog selector labels
 tags.datadoghq.com/env: {{ .Values.environment }}
 tags.datadoghq.com/service: "{{ include "kamuchart.fullname" . }}"
 tags.datadoghq.com/version: {{ .Values.version | quote }}
+admission.datadoghq.com/enabled: "true"
 language: {{ .Values.language }}
 {{- end }}
 
